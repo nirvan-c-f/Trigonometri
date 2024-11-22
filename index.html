@@ -1,0 +1,298 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pembahasan Trigonometri</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    </head>
+    <body>
+        <nav id="navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="#" class="brand">Trigonometri</a>
+                    <div class="navbar-toggle" onclick="toggleNavbar(this)">
+                        <div class="bar"></div> 
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <div class="navbar-links">
+                        <a href="#sin" onclick="closeNavbar()">Sin</a>
+                        <a href="#cos" onclick="closeNavbar()">Cos</a>
+                        <a href="#tan" onclick="closeNavbar()">Tan</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="sidebar" id="sidebar">
+            <a href="#sin" onclick="closeNavbar()">Sin</a>
+            <a href="#cos" onclick="closeNavbar()">Cos</a>
+            <a href="#tan" onclick="closeNavbar()">Tan</a>
+        </div>
+        <div class="overlay" id="overlay"></div>
+        <section id="home" class="section home-section">
+            <div class="container">
+                <h1>Calculator Trigonometri</h1>
+                <p>Kalkulator untuk mencari Sin, Cos, Tan dalam Trigonometri</p>
+            </div>
+        </section>    
+        <section id="sin" class="section">
+            <div class="container">
+                <div class="glass-container">
+                    <div class="sin-container">
+                        <h2>Fungsi Sinus (Sin)</h2> 
+                        <p>Sin adalah perbandingan antara sisi depan sudut dengan sisi miring segitiga siku-siku.</p>
+                        <div class="sin-calculator">
+                            <label for="sin-input">Masukkan Sudut (°):</label><br>  
+                            <input type="number" id="sin-input" placeholder="Sudut dalam derajat"><br>
+                            <button id="calculate-button" onclick="calculateSin()">Hitung Sin</button>
+                            <div class="loading-spinner" id="loading-spinner"></div>
+                            <div class="sin-output" id="sin-output"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>     
+        <section id="cos" class="section">
+            <div class="container">
+                <div class="glass-container">
+                    <div class="cos-container">
+                        <h2>Fungsi Cosinus (Cos)</h2>
+                        <p>Cos adalah perbandingan antara sisi samping sudut dengan sisi miring segitiga siku-siku.</p>
+                        <div class="sin-calculator">
+                            <label for="cos-input">Masukkan Sudut (°):</label><br>  
+                            <input type="number" id="cos-input" placeholder="Sudut dalam derajat"><br>
+                            <button id="cos-calculate-button" onclick="calculateCos()">Hitung Cos</button>
+                            <div class="loading-spinner" id="cos-loading-spinner"></div>
+                            <div class="sin-output" id="cos-output"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="tan" class="section">
+            <div class="container">
+                <div class="glass-container">
+                    <div class="tan-container">
+                        <h2>Fungsi Tangen (Tan)</h2>
+                        <p>Tan adalah perbandingan antara sisi depan sudut dengan sisi samping segitiga siku-siku.</p>
+                        <div class="sin-calculator">
+                            <label for="tan-input">Masukkan Sudut (°):</label><br>  
+                            <input type="number" id="tan-input" placeholder="Sudut dalam derajat"><br>
+                            <button id="tan-calculate-button" onclick="calculateTan()">Hitung Tan</button>
+                            <div class="loading-spinner" id="tan-loading-spinner"></div>
+                            <div class="sin-output" id="tan-output"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div class="container">
+                <p>Website ini dibuat oleh <a href="#" class="ig">Nirvan CF</a></p>
+            </div>
+        </footer>
+        <script>
+            function toggleNavbar(x) {
+                x.classList.toggle("active");
+                var sidebar = document.getElementById('sidebar');
+                var overlay = document.getElementById('overlay');
+                sidebar.classList.toggle("active");
+                overlay.classList.toggle("active");
+                updateNavbarBackground();
+            }
+
+            function closeNavbar() {
+                var navbarToggle = document.querySelector('.navbar-toggle');
+                var sidebar = document.getElementById('sidebar');
+                var overlay = document.getElementById('overlay');
+                if (navbarToggle.classList.contains('active')) {
+                    navbarToggle.classList.remove('active');
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                }
+                updateNavbarBackground();
+            }
+
+            function updateNavbarBackground() {
+                var navbar = document.getElementById('navbar');
+                var homeSection = document.getElementById('home');
+                var homeRect = homeSection.getBoundingClientRect();
+
+                if (homeRect.bottom <= 0 || window.innerWidth <= 768) {
+                    navbar.classList.add('blue');
+                    navbar.classList.remove('transparent');
+                } else {
+                    navbar.classList.add('transparent');
+                    navbar.classList.remove('blue');
+                }
+            }
+
+            function calculateSin() {
+            const input = document.getElementById('sin-input').value;
+            const button = document.getElementById('calculate-button');
+            const spinner = document.getElementById('loading-spinner');
+            const output = document.getElementById('sin-output');
+
+            if (input === '') {
+                output.textContent = "Harap masukkan sudut.";
+                return;
+            }
+
+            // Disable button and show loading
+            button.disabled = true;
+            spinner.style.display = 'block';
+            output.textContent = '';
+
+            // Simulate loading time
+            setTimeout(() => {
+                const angleInRadians = input * (Math.PI / 180);
+                let sinValue = Math.sin(angleInRadians);
+                let result;
+
+                // Margin toleransi untuk membandingkan angka floating-point
+                const epsilon = 0.00001;
+
+                if (Math.abs(sinValue - 0.5) < epsilon) {
+                    result = "0.5 = 1/2";
+                } else if (Math.abs(sinValue - Math.sqrt(2) / 2) < epsilon) {
+                    result = "0.707 = √2/2";
+                } else if (Math.abs(sinValue - Math.sqrt(3) / 2) < epsilon) {
+                    result = "0.866 = √3/2";
+                } else if (Math.abs(sinValue - 0) < epsilon) {
+                    result = "0";
+                } else if (Math.abs(sinValue - 1) < epsilon) {
+                    result = "1";
+                } else if (Math.abs(sinValue + 1) < epsilon) {
+                    result = "-1";
+                } else {
+                    result = sinValue.toFixed(8);
+                }
+
+                // Hide loading and show result
+                spinner.style.display = 'none';
+                output.textContent = `Sin(${input}°) = ${result}`;
+                output.classList.add('fade-in');
+                button.disabled = false;
+
+                // Remove fade-in class after animation
+                setTimeout(() => {
+                    output.classList.remove('fade-in');
+                }, 500);
+
+            }, 3000); // Simulasi loading selama 1 detik
+        }
+
+        function calculateCos() {
+            const input = document.getElementById('cos-input').value;
+            const button = document.getElementById('cos-calculate-button');
+            const spinner = document.getElementById('cos-loading-spinner');
+            const output = document.getElementById('cos-output');
+
+            if (input === '') {
+                output.textContent = "Harap masukkan sudut.";
+                return;
+            }
+
+            // Disable button and show loading
+            button.disabled = true;
+            spinner.style.display = 'block';
+            output.textContent = '';
+
+            // Simulate loading time
+            setTimeout(() => {
+                const angleInRadians = input * (Math.PI / 180);
+                let cosValue = Math.cos(angleInRadians);
+                let result;
+
+                // Margin toleransi untuk membandingkan angka floating-point
+                const epsilon = 0.00001;
+
+                if (Math.abs(cosValue - 0.5) < epsilon) {
+                    result = "0.5 = 1/2";
+                } else if (Math.abs(cosValue - Math.sqrt(2) / 2) < epsilon) {
+                    result = "0.707 = √2/2";
+                } else if (Math.abs(cosValue - Math.sqrt(3) / 2) < epsilon) {
+                    result = "0.866 = √3/2";
+                } else if (Math.abs(cosValue - 0) < epsilon) {
+                    result = "0";
+                } else if (Math.abs(cosValue - 1) < epsilon) {
+                    result = "1";
+                } else if (Math.abs(cosValue + 1) < epsilon) {
+                    result = "-1";
+                } else {
+                    result = cosValue.toFixed(8);
+                }
+
+                // Hide loading and show result
+                spinner.style.display = 'none';
+                output.textContent = `Cos(${input}°) = ${result}`;
+                output.classList.add('fade-in');
+                button.disabled = false;
+
+                // Remove fade-in class after animation
+                setTimeout(() => {
+                    output.classList.remove('fade-in');
+                }, 500);
+
+            }, 3000); // Simulasi loading selama 3 detik
+        }
+
+        function calculateTan() {
+            const input = document.getElementById('tan-input').value;
+            const button = document.getElementById('tan-calculate-button');
+            const spinner = document.getElementById('tan-loading-spinner');
+            const output = document.getElementById('tan-output');
+
+            if (input === '') {
+                output.textContent = "Harap masukkan sudut.";
+                return;
+            }
+
+            // Disable button and show loading
+            button.disabled = true;
+            spinner.style.display = 'block';
+            output.textContent = '';
+
+            // Simulate loading time
+            setTimeout(() => {
+                const angleInRadians = input * (Math.PI / 180);
+                let tanValue = Math.tan(angleInRadians);
+                let result;
+
+                // Margin toleransi untuk membandingkan angka floating-point
+                const epsilon = 0.00001;
+
+                if (Math.abs(tanValue - 1) < epsilon) {
+                    result = "1";
+                } else if (Math.abs(tanValue - Math.sqrt(3)) < epsilon) {
+                    result = "√3 ≈ 1.732";
+                } else if (Math.abs(tanValue - (1/Math.sqrt(3))) < epsilon) {
+                    result = "1/√3 ≈ 0.577";
+                } else if (Math.abs(tanValue - 0) < epsilon) {
+                    result = "0";
+                } else {
+                    result = tanValue.toFixed(8);
+                }
+
+                // Hide loading and show result
+                spinner.style.display = 'none';
+                output.textContent = `Tan(${input}°) = ${result}`;
+                output.classList.add('fade-in');
+                button.disabled = false;
+
+                // Remove fade-in class after animation
+                setTimeout(() => {
+                    output.classList.remove('fade-in');
+                }, 500);
+
+            }, 3000); // Simulasi loading selama 3 detik
+        }
+
+            window.addEventListener('scroll', updateNavbarBackground);
+            window.addEventListener('resize', updateNavbarBackground);
+            window.addEventListener('load', updateNavbarBackground);
+        </script>
+    </body>
+    </html>
