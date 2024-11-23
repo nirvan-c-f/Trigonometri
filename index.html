@@ -130,165 +130,167 @@
             }
 
             function calculateSin() {
-            const input = document.getElementById('sin-input').value;
-            const button = document.getElementById('calculate-button');
-            const spinner = document.getElementById('loading-spinner');
-            const output = document.getElementById('sin-output');
+    const input = document.getElementById('sin-input').value;
+    const button = document.getElementById('calculate-button');
+    const spinner = document.getElementById('loading-spinner');
+    const output = document.getElementById('sin-output');
 
-            if (input === '') {
-                output.textContent = "Harap masukkan sudut.";
-                return;
-            }
+    if (input === '') {
+        output.textContent = "Harap masukkan sudut.";
+        return;
+    }
 
-            // Disable button and show loading
-            button.disabled = true;
-            spinner.style.display = 'block';
-            output.textContent = '';
+    button.disabled = true;
+    spinner.style.display = 'block';
+    output.textContent = '';
 
-            // Simulate loading time
-            setTimeout(() => {
-                const angleInRadians = input * (Math.PI / 180);
-                let sinValue = Math.sin(angleInRadians);
-                let result;
+    setTimeout(() => {
+        const angleInRadians = input * (Math.PI / 180);
+        let sinValue = Math.sin(angleInRadians);
+        let result;
+        const epsilon = 0.00001;
 
-                // Margin toleransi untuk membandingkan angka floating-point
-                const epsilon = 0.00001;
-
-                if (Math.abs(sinValue - 0.5) < epsilon) {
-                    result = "0.5 = 1/2";
-                } else if (Math.abs(sinValue - Math.sqrt(2) / 2) < epsilon) {
-                    result = "0.707 = √2/2";
-                } else if (Math.abs(sinValue - Math.sqrt(3) / 2) < epsilon) {
-                    result = "0.866 = √3/2";
-                } else if (Math.abs(sinValue - 0) < epsilon) {
-                    result = "0";
-                } else if (Math.abs(sinValue - 1) < epsilon) {
-                    result = "1";
-                } else if (Math.abs(sinValue + 1) < epsilon) {
-                    result = "-1";
-                } else {
-                    result = sinValue.toFixed(8);
-                }
-
-                // Hide loading and show result
-                spinner.style.display = 'none';
-                output.textContent = `Sin(${input}°) = ${result}`;
-                output.classList.add('fade-in');
-                button.disabled = false;
-
-                // Remove fade-in class after animation
-                setTimeout(() => {
-                    output.classList.remove('fade-in');
-                }, 500);
-
-            }, 3000); // Simulasi loading selama 1 detik
+        // Menentukan nilai eksak dan bentuk akar
+        if (Math.abs(sinValue - 0.5) < epsilon) {
+            result = `0.50000000 = 1/2`;
+        } else if (Math.abs(sinValue - (-0.5)) < epsilon) {
+            result = `-0.50000000 = -1/2`;
+        } else if (Math.abs(sinValue - Math.sqrt(2)/2) < epsilon) {
+            result = `0.70710678 = √2/2`;
+        } else if (Math.abs(sinValue - (-Math.sqrt(2)/2)) < epsilon) {
+            result = `-0.70710678 = -√2/2`;
+        } else if (Math.abs(sinValue - Math.sqrt(3)/2) < epsilon) {
+            result = `0.86602540 = √3/2`;
+        } else if (Math.abs(sinValue - (-Math.sqrt(3)/2)) < epsilon) {
+            result = `-0.86602540 = -√3/2`;
+        } else if (Math.abs(sinValue - 0) < epsilon) {
+            result = `0.00000000 = 0`;
+        } else if (Math.abs(sinValue - 1) < epsilon) {
+            result = `1.00000000 = 1`;
+        } else if (Math.abs(sinValue + 1) < epsilon) {
+            result = `-1.00000000 = -1`;
+        } else {
+            result = `${sinValue.toFixed(8)}`;
         }
 
-        function calculateCos() {
-            const input = document.getElementById('cos-input').value;
-            const button = document.getElementById('cos-calculate-button');
-            const spinner = document.getElementById('cos-loading-spinner');
-            const output = document.getElementById('cos-output');
+        spinner.style.display = 'none';
+        output.textContent = `Sin(${input}°) = ${result}`;
+        output.classList.add('fade-in');
+        button.disabled = false;
 
-            if (input === '') {
-                output.textContent = "Harap masukkan sudut.";
-                return;
-            }
+        setTimeout(() => {
+            output.classList.remove('fade-in');
+        }, 500);
+    }, 3000);
+}
 
-            // Disable button and show loading
-            button.disabled = true;
-            spinner.style.display = 'block';
-            output.textContent = '';
+function calculateCos() {
+    const input = document.getElementById('cos-input').value;
+    const button = document.getElementById('cos-calculate-button');
+    const spinner = document.getElementById('cos-loading-spinner');
+    const output = document.getElementById('cos-output');
 
-            // Simulate loading time
-            setTimeout(() => {
-                const angleInRadians = input * (Math.PI / 180);
-                let cosValue = Math.cos(angleInRadians);
-                let result;
+    if (input === '') {
+        output.textContent = "Harap masukkan sudut.";
+        return;
+    }
 
-                // Margin toleransi untuk membandingkan angka floating-point
-                const epsilon = 0.00001;
+    button.disabled = true;
+    spinner.style.display = 'block';
+    output.textContent = '';
 
-                if (Math.abs(cosValue - 0.5) < epsilon) {
-                    result = "0.5 = 1/2";
-                } else if (Math.abs(cosValue - Math.sqrt(2) / 2) < epsilon) {
-                    result = "0.707 = √2/2";
-                } else if (Math.abs(cosValue - Math.sqrt(3) / 2) < epsilon) {
-                    result = "0.866 = √3/2";
-                } else if (Math.abs(cosValue - 0) < epsilon) {
-                    result = "0";
-                } else if (Math.abs(cosValue - 1) < epsilon) {
-                    result = "1";
-                } else if (Math.abs(cosValue + 1) < epsilon) {
-                    result = "-1";
-                } else {
-                    result = cosValue.toFixed(8);
-                }
+    setTimeout(() => {
+        const angleInRadians = input * (Math.PI / 180);
+        let cosValue = Math.cos(angleInRadians);
+        let result;
+        const epsilon = 0.00001;
 
-                // Hide loading and show result
-                spinner.style.display = 'none';
-                output.textContent = `Cos(${input}°) = ${result}`;
-                output.classList.add('fade-in');
-                button.disabled = false;
-
-                // Remove fade-in class after animation
-                setTimeout(() => {
-                    output.classList.remove('fade-in');
-                }, 500);
-
-            }, 3000); // Simulasi loading selama 3 detik
+        // Menentukan nilai eksak dan bentuk akar
+        if (Math.abs(cosValue - 0.5) < epsilon) {
+            result = `0.50000000 = 1/2`;
+        } else if (Math.abs(cosValue - (-0.5)) < epsilon) {
+            result = `-0.50000000 = -1/2`;
+        } else if (Math.abs(cosValue - Math.sqrt(2)/2) < epsilon) {
+            result = `0.70710678 = √2/2`;
+        } else if (Math.abs(cosValue - (-Math.sqrt(2)/2)) < epsilon) {
+            result = `-0.70710678 = -√2/2`;
+        } else if (Math.abs(cosValue - Math.sqrt(3)/2) < epsilon) {
+            result = `0.86602540 = √3/2`;
+        } else if (Math.abs(cosValue - (-Math.sqrt(3)/2)) < epsilon) {
+            result = `-0.86602540 = -√3/2`;
+        } else if (Math.abs(cosValue - 0) < epsilon) {
+            result = `0.00000000 = 0`;
+        } else if (Math.abs(cosValue - 1) < epsilon) {
+            result = `1.00000000 = 1`;
+        } else if (Math.abs(cosValue + 1) < epsilon) {
+            result = `-1.00000000 = -1`;
+        } else {
+            result = `${cosValue.toFixed(8)}`;
         }
 
-        function calculateTan() {
-            const input = document.getElementById('tan-input').value;
-            const button = document.getElementById('tan-calculate-button');
-            const spinner = document.getElementById('tan-loading-spinner');
-            const output = document.getElementById('tan-output');
+        spinner.style.display = 'none';
+        output.textContent = `Cos(${input}°) = ${result}`;
+        output.classList.add('fade-in');
+        button.disabled = false;
 
-            if (input === '') {
-                output.textContent = "Harap masukkan sudut.";
-                return;
-            }
+        setTimeout(() => {
+            output.classList.remove('fade-in');
+        }, 500);
+    }, 3000);
+}
 
-            // Disable button and show loading
-            button.disabled = true;
-            spinner.style.display = 'block';
-            output.textContent = '';
+function calculateTan() {
+    const input = document.getElementById('tan-input').value;
+    const button = document.getElementById('tan-calculate-button');
+    const spinner = document.getElementById('tan-loading-spinner');
+    const output = document.getElementById('tan-output');
 
-            // Simulate loading time
-            setTimeout(() => {
-                const angleInRadians = input * (Math.PI / 180);
-                let tanValue = Math.tan(angleInRadians);
-                let result;
+    if (input === '') {
+        output.textContent = "Harap masukkan sudut.";
+        return;
+    }
 
-                // Margin toleransi untuk membandingkan angka floating-point
-                const epsilon = 0.00001;
+    button.disabled = true;
+    spinner.style.display = 'block';
+    output.textContent = '';
 
-                if (Math.abs(tanValue - 1) < epsilon) {
-                    result = "1";
-                } else if (Math.abs(tanValue - Math.sqrt(3)) < epsilon) {
-                    result = "1.732 = √3";
-                } else if (Math.abs(tanValue - (1/Math.sqrt(3))) < epsilon) {
-                    result = "0.577 = 1/√3";
-                } else if (Math.abs(tanValue - 0) < epsilon) {
-                    result = "0";
-                } else {
-                    result = tanValue.toFixed(8);
-                }
+    setTimeout(() => {
+        const angleInRadians = input * (Math.PI / 180);
+        let tanValue = Math.tan(angleInRadians);
+        let result;
+        const epsilon = 0.00001;
 
-                // Hide loading and show result
-                spinner.style.display = 'none';
-                output.textContent = `Tan(${input}°) = ${result}`;
-                output.classList.add('fade-in');
-                button.disabled = false;
-
-                // Remove fade-in class after animation
-                setTimeout(() => {
-                    output.classList.remove('fade-in');
-                }, 500);
-
-            }, 3000); // Simulasi loading selama 3 detik
+        // Menentukan nilai eksak dan bentuk akar
+        if (Math.abs(tanValue - 1) < epsilon) {
+            result = `1.00000000 = 1`;
+        } else if (Math.abs(tanValue + 1) < epsilon) {
+            result = `-1.00000000 = -1`;
+        } else if (Math.abs(tanValue - Math.sqrt(3)) < epsilon) {
+            result = `1.73205081 = √3`;
+        } else if (Math.abs(tanValue + Math.sqrt(3)) < epsilon) {
+            result = `-1.73205081 = -√3`;
+        } else if (Math.abs(tanValue - (1/Math.sqrt(3))) < epsilon) {
+            result = `0.57735027 = 1/√3`;
+        } else if (Math.abs(tanValue + (1/Math.sqrt(3))) < epsilon) {
+            result = `-0.57735027 = -1/√3`;
+        } else if (Math.abs(tanValue - 0) < epsilon) {
+            result = `0.00000000 = 0`;
+        } else if (!isFinite(tanValue)) {
+            result = `undefined (tidak terdefinisi)`;
+        } else {
+            result = `${tanValue.toFixed(8)}`;
         }
+
+        spinner.style.display = 'none';
+        output.textContent = `Tan(${input}°) = ${result}`;
+        output.classList.add('fade-in');
+        button.disabled = false;
+
+        setTimeout(() => {
+            output.classList.remove('fade-in');
+        }, 500);
+    }, 3000);
+}
 
             window.addEventListener('scroll', updateNavbarBackground);
             window.addEventListener('resize', updateNavbarBackground);
